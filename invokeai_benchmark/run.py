@@ -20,7 +20,7 @@ class Client:
         adapter = HTTPAdapter(max_retries=retry)
         self.session.mount('http://', adapter)
         self.session.mount('https://', adapter)
-
+        self.session.hooks['response'].append(lambda r, *args, **kwargs: r.raise_for_status())
         self.verbose = verbose
 
     def invoke(
@@ -91,7 +91,6 @@ class Client:
         url = urljoin(self.url, path)
         params = {'limit': 1000}
         response = self.session.get(url, params=params)
-        response.raise_for_status()
         return response.json()
 
     def _get_session(self, session_id):
