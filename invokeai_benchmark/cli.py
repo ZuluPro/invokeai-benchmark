@@ -1,5 +1,6 @@
 import argparse
 from invokeai_benchmark import run
+from invokeai_benchmark import __version__
 
 ACTIONS = (
     'text-to-image',
@@ -45,6 +46,7 @@ def main():
 
     result.update(
         version=client.get_version(),
+        bench_version=__version__,
     )
     for key, value in result.items():
         print(key, ':', value)
